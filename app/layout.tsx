@@ -15,8 +15,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "RSVP - Next",
-  description: "RSVP app template using Next.js and Supabase",
+  title: "LeoLand",
+  description: "LeoLand",
 };
 
 export default function RootLayout({
