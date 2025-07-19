@@ -13,7 +13,8 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function RSVPForm() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  //const [email, setEmail] = useState("");
   const [accompany, setAccompany] = useState<string | null>(null);
   const [attendance, setAttendance] = useState("yes");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -23,17 +24,17 @@ export default function RSVPForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name) {
-      setErrors({ name: "Name is required" });
+      setErrors({ name: "El nombre es obligatorio" });
       return;
     }
-    if (!email) {
-      setErrors({ email: "Email is required" });
+    if (!phone) {
+      setErrors({ phone: "Se requiere correo electrónico" });
       return;
     }
 
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("email", email);
+    formData.append("phone", phone);
     formData.append("accompany", accompany || "0");
     formData.append("attendance", attendance);
 
@@ -47,7 +48,7 @@ export default function RSVPForm() {
       });
       // Reset form
       setName("");
-      setEmail("");
+      setPhone("");
       setAccompany(null);
       setAttendance("yes");
       setErrors({});
@@ -59,7 +60,7 @@ export default function RSVPForm() {
       });
       if (result.error) {
         if (result.error.code === "23505") {
-          setErrors({ email: "Email already exists" });
+          setErrors({ phone: "Phone number already exists" });
         }
       }
     }
@@ -116,17 +117,17 @@ export default function RSVPForm() {
           )}
         </div>
         <div>
-          <Label htmlFor="email">{strings.emailLabel}</Label>
+          <Label htmlFor="phone">{strings.emailLabel}</Label>
           <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            id="phone"
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             required
           />
           {/* Error message if there is one */}
           {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
           )}
         </div>
         <div>

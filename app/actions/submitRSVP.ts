@@ -10,13 +10,14 @@ export async function submitRSVP(formData: FormData) {
   const supabase = await createClient();
 
   const name = formData.get("name");
-  const email = formData.get("email");
+  const phone = formData.get("phone");
+  //const email = formData.get("email");
   const accompany = formData.get("accompany");
   const attendance = formData.get("attendance");
 
   const { data, error } = await supabase
     .from("rsvps")
-    .insert([{ name, email, accompany, attendance }]);
+    .insert([{ name, phone, accompany, attendance }]);
   console.log(data, "data_submitRSVP");
 
   if (error) {
@@ -34,11 +35,11 @@ export async function submitRSVP(formData: FormData) {
       await resend.emails.send({
         from: "RSVP <onboarding@resend.dev>",
         to: strings.sendToEmail,
-        subject: "New RSVP Submission",
+        subject: "LEOLAND RSVP",
         html: `
-        <h1>New RSVP Submission</h1>
+        <h1>LEOLAND RSVP</h1>
         <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
         <p><strong>Number of Guests:</strong> ${accompany}</p>
         <p><strong>Attendance:</strong> ${attendance}</p>
       `,
