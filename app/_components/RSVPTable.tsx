@@ -16,7 +16,7 @@ interface RSVP {
   name: string;
   phone: string;
   accompany: number;
-  attendance: string;
+  attendance: string; 
 }
 
 interface RSVPTableProps {
@@ -32,16 +32,31 @@ export function RSVPTable({ data }: RSVPTableProps) {
     );
   }, [data, filter]);
 
+  // 👇 Calculate total guests attending
+  const totalAttending = React.useMemo(() => {
+    return data.reduce((sum, rsvp) => {
+      if (rsvp.attendance.toLowerCase() === "yes") {
+        return sum + (rsvp.accompany || 1); 
+      }
+      return sum;
+    }, 0);
+  }, [data]);
+
   return (
     <div>
-      <div className="flex items-center py-4">
+      {/* Live counter */}
+      <div className="flex justify-between items-center py-4">
         <Input
           placeholder="Filter by name..."
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
           className="max-w-sm"
         />
+        <div className="font-semibold">
+          Total Guests Attending: {totalAttending}
+        </div>
       </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
