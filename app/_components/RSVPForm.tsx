@@ -14,7 +14,6 @@ import { useToast } from "@/hooks/use-toast";
 export default function RSVPForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  //const [email, setEmail] = useState("");
   const [accompany, setAccompany] = useState<string | null>(null);
   const [attendance, setAttendance] = useState("yes");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -28,7 +27,7 @@ export default function RSVPForm() {
       return;
     }
     if (!phone) {
-      setErrors({ phone: "Se requiere correo electrónico" });
+      setErrors({ phone: "Se requiere número de teléfono" });
       return;
     }
 
@@ -79,6 +78,7 @@ export default function RSVPForm() {
     <div className="max-w-md mx-auto my-10">
       <h1 className="text-2xl font-bold mb-4">{strings.title}</h1>
       <p className="mb-6">{strings.description}</p>
+
       <div className="mb-6">
         <Label>{strings.eventDateLabel}</Label>
         <Calendar
@@ -90,6 +90,33 @@ export default function RSVPForm() {
           defaultMonth={new Date(strings.eventDate)}
           ISOWeek
         />
+
+        <div className="mt-4 w-full h-64 relative">
+          <iframe
+            title="Event Location"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+            src={`https://www.google.com/maps?q=${encodeURIComponent(
+              strings.eventLocation
+            )}&output=embed`}
+          ></iframe>
+
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+              strings.eventLocation
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0"
+          >
+            <span className="sr-only">View on Google Maps</span>
+          </a>
+        </div>
+
         <div className="mt-4">
           <Button
             type="button"
@@ -102,6 +129,7 @@ export default function RSVPForm() {
           </Button>
         </div>
       </div>
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <Label htmlFor="name">{strings.nameLabel}</Label>
@@ -111,7 +139,6 @@ export default function RSVPForm() {
             onChange={(e) => setName(e.target.value)}
             required
           />
-          {/* Show error message if there is one */}
           {errors.name && (
             <p className="text-red-500 text-sm mt-1">{errors.name}</p>
           )}
@@ -125,8 +152,7 @@ export default function RSVPForm() {
             onChange={(e) => setPhone(e.target.value)}
             required
           />
-          {/* Error message if there is one */}
-          {errors.email && (
+          {errors.phone && (
             <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
           )}
         </div>
